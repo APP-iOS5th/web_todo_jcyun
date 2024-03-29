@@ -31,7 +31,6 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js"
         crossorigin="anonymous"></script>
     <script>
-
         document.addEventListener('DOMContentLoaded', function () {
             loadTodos()
         })
@@ -45,18 +44,18 @@
             }
         })
 
-        function reset () {
-            document.querySelectorAll("input[type=text]")[0].value = "";
+        function reset() {
+            document.getElementById('todoInput').value = "";
         }
 
-        function addTodo (text) {
+        function addTodo(text) {
             var list = document.getElementById('todoList')
 
             var item = document.createElement('li')
             item.classList.add('list-group-item', 'd-flex', 'justify-content-between', 'align-items-center')
 
             var label = document.createElement('label')
-            label.classList.add('form-check-label', 'me-3', 'text-start')
+            label.classList.add('form-check-label', 'me-3', 'text-start', 'flex-grow-1')
             label.innerText = text
 
             var checkbox = document.createElement('input')
@@ -74,61 +73,33 @@
                 storeTodos()
             })
 
-            item.appendChild(checkbox)
-            item.appendChild(label)
+            var div = document.createElement('div')
+            div.classList.add('d-flex', 'align-items-center')
+            div.appendChild(checkbox)
+            div.appendChild(document.createTextNode('\u00A0\u00A0'))
+            div.appendChild(label)
+
+            item.appendChild(div)
             item.appendChild(removeButton)
             list.appendChild(item)
         }
 
-        function storeTodos () {
+        function storeTodos() {
             var todos = []
             var todoList = document.getElementById('todoList')
             for (var i = 0; i < todoList.children.length; i++) {
-                todos.push(todoList.children[i].innerText.replace('Remove', '').trim())
+                todos.push(todoList.children[i].querySelector('label').innerText)
             }
-            console.log(todos)
             localStorage.setItem('todos', JSON.stringify(todos))
         }
 
-        function loadTodos () {
+        function loadTodos() {
             var todos = JSON.parse(localStorage.getItem('todos'))
             if (todos) {
                 todos.forEach(function (todo) {
                     addTodo(todo)
                 })
             }
-        }
-
-        function addTodoWithCheckbox (text, isChecked) {
-            var list = document.getElementById('todoList')
-
-            var item = document.createElement('li')
-            item.classList.add('list-group-item', 'd-flex', 'justify-content-between', 'align-items-center')
-
-            var label = document.createElement('label')
-            label.classList.add('form-check-label', 'me-3', 'text-start') // Apply 'text-start' class here
-            label.innerText = text
-
-            var checkbox = document.createElement('input')
-            checkbox.type = 'checkbox'
-            checkbox.classList.add('form-check-input')
-            checkbox.checked = isChecked
-            checkbox.addEventListener('click', function () {
-                storeTodos()
-            })
-
-            var removeButton = document.createElement('button')
-            removeButton.innerText = 'Remove'
-            removeButton.classList.add('btn', 'btn-danger', 'btn-sm')
-            removeButton.addEventListener('click', function () {
-                item.parentNode.removeChild(item)
-                storeTodos()
-            })
-
-            item.appendChild(checkbox)
-            item.appendChild(label)
-            item.appendChild(removeButton)
-            list.appendChild(item)
         }
     </script>
 </body>
