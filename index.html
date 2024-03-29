@@ -16,9 +16,11 @@
             <div class="col-6">
                 <h1 class="mt-5 text-center">Todo List</h1>
                 <div class="input-group mb-3 mt-3">
-                    <input type="text" class="form-control" id="todoInput" placeholder="New task">
+                    <div class="d-flex border p-1">
+                        <input type="text" class="form-control border-0" id="todoInput" placeholder="New task">
+                        <button value="clear" onclick="reset()">Clear</button>
+                    </div>
                     <button class="btn btn-primary" id="addTodo">Add</button>
-                    <button value="clear" onclick="reset()">Clear</button>
                 </div>
                 <ul class="list-group" id="todoList"></ul>
             </div>
@@ -43,11 +45,11 @@
             }
         })
 
-        function reset() {
+        function reset () {
             document.querySelectorAll("input[type=text]")[0].value = "";
         }
 
-        function addTodo(text) {
+        function addTodo (text) {
             var list = document.getElementById('todoList')
 
             var item = document.createElement('li')
@@ -78,7 +80,7 @@
             list.appendChild(item)
         }
 
-        function storeTodos() {
+        function storeTodos () {
             var todos = []
             var todoList = document.getElementById('todoList')
             for (var i = 0; i < todoList.children.length; i++) {
@@ -88,7 +90,7 @@
             localStorage.setItem('todos', JSON.stringify(todos))
         }
 
-        function loadTodos() {
+        function loadTodos () {
             var todos = JSON.parse(localStorage.getItem('todos'))
             if (todos) {
                 todos.forEach(function (todo) {
@@ -97,7 +99,7 @@
             }
         }
 
-        function addTodoWithCheckbox(text, isChecked) {
+        function addTodoWithCheckbox (text, isChecked) {
             var list = document.getElementById('todoList')
 
             var item = document.createElement('li')
