@@ -42,10 +42,20 @@
 
         function addTodo(text) {
             var list = document.getElementById('todoList')
+
             var item = document.createElement('li')
             item.innerText = text
             item.classList.add('list-group-item')
 
+            var removeButton = document.createElement('button')
+            removeButton.innerText = 'Remove'
+            removeButton.classList.add('btn', 'btn-danger', 'btn-sm', 'float-end')
+            removeButton.addEventListener('click', function() {
+                item.parentNode.removeChild(item)
+                storeTodos()
+            })
+
+            item.appendChild(removeButton)
             list.appendChild(item)
         }
 
@@ -53,7 +63,7 @@
             var todos = []
             var todoList = document.getElementById('todoList')
             for (var i = 0; i < todoList.children.length; i++) {
-                todos.push(todoList.children[i].innerText.trim())
+                todos.push(todoList.children[i].innerText.replace('Remove', '').trim())
             }
             console.log(todos)
             localStorage.setItem('todos', JSON.stringify(todos))
